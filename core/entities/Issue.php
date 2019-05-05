@@ -5577,7 +5577,7 @@
 
             foreach ($users as $user)
             {
-                if ($user->getNotificationSetting(framework\Settings::SETTINGS_USER_NOTIFY_SUBSCRIBED_ISSUES, false)->isOn() && $this->isSubscriber($user))
+                if ($this->shouldNotifyUserOnSafe($user,false))
                 {
                     $this->_addNotificationIfNotNotified(Notification::TYPE_ISSUE_UPDATED, $user, $updated_by);
                 }
@@ -5590,17 +5590,9 @@
             {
                 if ($this->shouldAutomaticallySubscribeUser($user)) $this->addSubscriber($user->getID());
 
-                if ($this->shouldAddNotification($user))
+                if ($this->shouldNotifyUserOnSafe($user,true))
                     $this->_addNotificationIfNotNotified(Notification::TYPE_ISSUE_CREATED, $user, $updated_by);
             }
-        }
-
-        protected function shouldAddNotification($related_user)
-        {
-            if ($this->getCategory() instanceof Category && $related_user->getNotificationSetting(framework\Settings::SETTINGS_USER_NOTIFY_NEW_ISSUES_MY_PROJECTS_CATEGORY . '_' . $this->getCategory()->getID(), false)->isOn())
-                return true;
-
-            return $related_user->getNotificationSetting(framework\Settings::SETTINGS_USER_NOTIFY_NEW_ISSUES_MY_PROJECTS, false)->isOn();
         }
 
         public function triggerSaveEvent($comment, $updated_by)
@@ -5625,11 +5617,33 @@
             $event->trigger();
         }
 
+        public function shouldNotifyUserOnSafe($user, $is_new, $module = 'core')
+        {
+            if (!$user instanceof User) return false;
+
+            if (!$this->hasAccess($user)) return false;
+
+            if($is_new)
+            {
+                //TODO: check for "my project"
+                if ($this->getCategory() instanceof Category)
+                    if ($user->getNotificationSetting(framework\Settings::SETTINGS_USER_NOTIFY_NEW_ISSUES_MY_PROJECTS_CATEGORY . '_' . $this->getCategory()->getID(), false, $module)->isOn())
+                        return true;
+
+                return $user->getNotificationSetting(framework\Settings::SETTINGS_USER_NOTIFY_NEW_ISSUES_MY_PROJECTS, true, $module)->isOn();
+            }
+            else
+            {
+                if ($this->isSubscriber($user))
+                    return $user->getNotificationSetting(framework\Settings::SETTINGS_USER_NOTIFY_SUBSCRIBED_ISSUES, false)->isOn();
+            }
+        }
+
         public function shouldAutomaticallySubscribeUser($user)
         {
-            if (!$this->hasAccess($user) || $this->isSubscriber($user)) return false;
-
             if (!$user instanceof User) return false;
+
+            if (!$this->hasAccess($user) || $this->isSubscriber($user)) return false;
 
             if ($this->getCategory() instanceof Category) {
                 if ($user->getNotificationSetting(framework\Settings::SETTINGS_USER_SUBSCRIBE_NEW_ISSUES_MY_PROJECTS_CATEGORY . '_' . $this->getCategory()->getID(), false)->isOn())

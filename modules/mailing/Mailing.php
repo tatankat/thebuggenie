@@ -548,14 +548,30 @@ EOT;
             {
                 $subject = '[' . $issue->getProject()->getKey() . '] ' . $issue->getIssueType()->getName() . ' ' . $issue->getFormattedIssueNo(true) . ' - ' . html_entity_decode($issue->getTitle(), ENT_COMPAT, framework\Context::getI18n()->getCharset());
                 $parameters = compact('issue');
-                $to_users = $issue->getRelatedUsers();
+
+                /* User who have this issue in one of "my projects": only for new issues */
+                $myproject_users = $issue->getRelatedUsers();
+                foreach ($myproject_users as $uid => $user)
+                {
+                    if (!$this->hasMyprojectUserAskedToBeNotified($user,$issue)) {
+                        unset($to_users[$uid]); break;
+                    }
+                    if (!$this->doesUserStillNeedToBeNotified($user,$issue)) {
+                        unset($to_users[$uid]); break;
+                    }
+                }
+
+                /* Users that are otherwise related to this issue */
+                $related_users = $this->_getIssueRelatedUsers($issue);
                 if (!$this->getSetting(self::NOTIFY_UPDATED_SELF, framework\Context::getUser()->getID()))
                     unset($to_users[framework\Context::getUser()->getID()]);
-
                 foreach ($to_users as $uid => $user)
                 {
-                    if ($user->getNotificationSetting(self::NOTIFY_NEW_ISSUES_MY_PROJECTS, true, 'mailing')->isOff() || !$issue->hasAccess($user) || ($user->getNotificationSetting(self::NOTIFY_NEW_ISSUES_MY_PROJECTS, true, 'mailing')->isOn() && $user->getNotificationSetting(self::NOTIFY_NEW_ISSUES_MY_PROJECTS_CATEGORY, false, 'mailing')->isOn() && ($issue->getCategory() instanceof \thebuggenie\core\entities\Category && $user->getNotificationSetting(self::NOTIFY_NEW_ISSUES_MY_PROJECTS_CATEGORY, 0, 'mailing')->getValue() != $issue->getCategory()->getID()))) unset($to_users[$uid]);
-                    if ($user->getNotificationSetting(self::NOTIFY_NOT_WHEN_ACTIVE, false, 'mailing')->isOn() && $user->isActive()) unset($to_users[$uid]);
+                    if (!$issue->hasAccess($user)) return false;
+                    if (
+                        $user->getNotificationSetting(self::NOTIFY_NOT_WHEN_ACTIVE, false, 'mailing')->isOn()
+                        && $user->isActive()
+                        ) unset($to_users[$uid]);
                 }
                 $messages = $this->getTranslatedMessages('issuecreate', $parameters, $to_users, $subject);
 
