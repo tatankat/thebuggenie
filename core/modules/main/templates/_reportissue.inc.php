@@ -789,7 +789,7 @@
                         <?php image_tag('spinning_16.gif', array('id' => 'acl_indicator_', 'style' => '')); ?>
                         <div id="acl-users-teams-selector" style="display: none;">
                             <h4 style="margin-top: 10px;">
-                                <?= javascript_link_tag(__('Add a user or team'), array('onclick' => "$('popup_find_acl_').toggle('block');", 'style' => 'float: right;', 'class' => 'button button-silver')); ?>
+                                <?= javascript_link_tag(__('Add a user or team'), array('onclick' => "$('popup_find_acl_').toggleClassName('force-active');", 'style' => 'float: right;', 'class' => 'button button-silver')); ?>
                                 <?= __('Users or teams who can see this issue'); ?>
                             </h4>
                             <?php include_component('main/identifiableselector', array(    'html_id'             => "popup_find_acl_",

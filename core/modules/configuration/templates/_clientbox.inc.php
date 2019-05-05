@@ -3,9 +3,9 @@
         <?= image_tag('client_large.png', array('style' => 'float: left; margin-right: 5px;')); ?>
         <div style="position: absolute; right: 12px; top: 12px;">
             <button class="button button-silver dropper"><?= __('Actions'); ?></button>
-            <ul style="position: absolute; font-size: 1.1em; width: 200px; top: 23px; margin-top: 0; right: 0; text-align: right; z-index: 1000;" class="simple_list rounded_box white shadowed popup_box more_actions_dropdown" onclick="jQuery(this).prev().toggleClass('button-pressed');jQuery(this).toggle();">
+            <ul style="position: absolute; font-size: 1.1em; width: 200px; top: 23px; margin-top: 0; right: 0; text-align: right; z-index: 1000;" class="simple_list rounded_box white shadowed popup_box more_actions_dropdown">
                 <li>
-                    <?= javascript_link_tag(__('Add member(s) to this client'), array('onclick' => '$(\'addmember_client_'.$client->getID().'\').toggle(\'block\');')); ?>
+                    <?= javascript_link_tag(__('Add member(s) to this client'), array('onclick' => '$(\'addmember_client_'.$client->getID().'\').toggleClassName(\'force-active\');')); ?>
                 </li>
                 <li>
                     <?= javascript_link_tag(__('List users in this client'), array('onclick' => 'TBG.Config.Client.showMembers(\''.make_url('configure_users_get_client_members', array('client_id' => $client->getID())).'\', '.$client->getID().');')); ?>
@@ -88,10 +88,9 @@
                                                                 'callback'             => "TBG.Config.Client.addMember('".make_url('configure_users_add_client_member', array('client_id' => $client->getID(), 'user_id' => '%identifiable_value'))."', ".$client->getID().", '%identifiable_value');$('addmember_client_{$client->getID()}').hide();",
                                                                 'base_id'            => "addmember_client_{$client->getID()}",
                                                                 'include_teams'        => false,
-                                                                'style'                => array('right' => '0', 'top' => '30px'),
                                                                 'allow_clear'        => false,
                                                                 'allow_close'        => true,
-                                                                'style'                => array('right' => '12px', 'top' => '35px'),
+                                                                'style'                => array('right' => '12px', 'top' => '50px'),
                                                                 'absolute'            => true)); ?>
     </div>
     <div class="rounded_box lightgrey" style="margin-bottom: 5px; display: none;" id="client_members_<?= $client->getID(); ?>_container">

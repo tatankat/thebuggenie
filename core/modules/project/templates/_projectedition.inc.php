@@ -38,7 +38,7 @@
                             <?php echo __('Noone'); ?>
                         </td>
                         <?php if ($access_level == \thebuggenie\core\framework\Settings::ACCESS_FULL): ?>
-                            <td style="padding: 2px; width: 100px; font-size: 0.9em; text-align: right;"><a href="javascript:void(0);" onclick="$('edition_<?php echo $edition->getID(); ?>_owned_by_change').toggle('block');" title="<?php echo __('Switch'); ?>"><?php echo __('Change / set'); ?></a></td>
+                            <td style="padding: 2px; width: 100px; font-size: 0.9em; text-align: right;"><a href="javascript:void(0);" onclick="$('edition_<?php echo $edition->getID(); ?>_owned_by_change').toggleClassName('force-active');" title="<?php echo __('Switch'); ?>"><?php echo __('Change / set'); ?></a></td>
                         <?php endif; ?>
                     </tr>
                     <tr><td colspan="3" class="description faded_out" style="padding-bottom: 10px;"><?php echo __('The edition owner has total control over this edition and can edit information, settings, and anything about it'); ?></td></tr>
@@ -66,7 +66,7 @@
                             <?php echo __('Noone'); ?>
                         </td>
                         <?php if ($access_level == \thebuggenie\core\framework\Settings::ACCESS_FULL): ?>
-                            <td style="padding: 2px; width: 100px; font-size: 0.9em; text-align: right;"><a href="javascript:void(0);" onclick="$('edition_<?php echo $edition->getID(); ?>_lead_by_change').toggle('block');" title="<?php echo __('Switch'); ?>"><?php echo __('Change / set'); ?></a></td>
+                            <td style="padding: 2px; width: 100px; font-size: 0.9em; text-align: right;"><a href="javascript:void(0);" onclick="$('edition_<?php echo $edition->getID(); ?>_lead_by_change').toggleClassName('force-active');" title="<?php echo __('Switch'); ?>"><?php echo __('Change / set'); ?></a></td>
                         <?php endif; ?>
                     </tr>
                     <tr><td colspan="3" class="description faded_out" style="padding-bottom: 10px;"><?php echo __('If no default assignee is set on the component or project an issue is filed against, then the issue will automatically be assigned to the user you set here. This can be overridden when reporting the issue.'); ?></td></tr>
@@ -94,7 +94,7 @@
                             <?php echo __('Noone'); ?>
                         </td>
                         <?php if ($access_level == \thebuggenie\core\framework\Settings::ACCESS_FULL): ?>
-                            <td style="padding: 2px; width: 100px; font-size: 0.9em; text-align: right;"><a href="javascript:void(0);" onclick="$('edition_<?php echo $edition->getID(); ?>_qa_by_change').toggle('block');" title="<?php echo __('Switch'); ?>"><?php echo __('Change / set'); ?></a></td>
+                            <td style="padding: 2px; width: 100px; font-size: 0.9em; text-align: right;"><a href="javascript:void(0);" onclick="$('edition_<?php echo $edition->getID(); ?>_qa_by_change').toggleClassName('force-active');" title="<?php echo __('Switch'); ?>"><?php echo __('Change / set'); ?></a></td>
                         <?php endif; ?>
                     </tr>
                 </table>
