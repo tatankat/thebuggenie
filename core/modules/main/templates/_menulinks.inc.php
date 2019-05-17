@@ -1,17 +1,33 @@
+<?php
+$canEditMenuLinks =
+                (
+                    \thebuggenie\core\framework\Context::isProjectContext()
+                    &&
+                    !\thebuggenie\core\framework\Context::getCurrentProject()->isArchived()
+                    &&
+                    $tbg_user->canEditMainMenu($target_type,\thebuggenie\core\framework\Context::getCurrentProject()->getKey())
+                )
+                ||
+                (
+                    !\thebuggenie\core\framework\Context::isProjectContext()
+                    &&
+                    $tbg_user->canEditMainMenu($target_type)
+                );
+?>
 <div class="container_div menu_links" id="<?php echo $target_type; ?>_<?php echo $target_id; ?>_container">
     <div class="header">
-        <?php if ($tbg_user->canEditMainMenu($target_type) && ((\thebuggenie\core\framework\Context::isProjectContext() && !\thebuggenie\core\framework\Context::getCurrentProject()->isArchived()) || !\thebuggenie\core\framework\Context::isProjectContext())): ?>
+        <?php if ($canEditMenuLinks): ?>
             <a href="javascript:void(0);" class="dropper dynamic_menu_link">
                 <?php echo fa_image_tag('cog'); ?>
             </a>
             <ul class="more_actions_dropdown popup_box">
                 <li><?php echo javascript_link_tag(__('Toggle menu edit mode'), array('onclick' => "TBG.Main.Profile.clearPopupsAndButtons();TBG.Main.Menu.toggleEditMode('{$target_type}', '{$target_id}', '".make_url('save_menu_order', array('target_type' => $target_type, 'target_id' => $target_id))."');", 'id' => 'toggle_'.$target_type.'_'.$target_id.'_edit_mode')); ?></li>
-                <li><?php echo javascript_link_tag(__('Add menu item'), array('onclick' => "TBG.Main.Profile.clearPopupsAndButtons();$('attach_link_{$target_type}_{$target_id}').toggle();")); ?></li>
+                <li><?php echo javascript_link_tag(__('Add menu item'), array('onclick' => "TBG.Main.Profile.clearPopupsAndButtons();jQuery('#attach_link_{$target_type}_{$target_id}').toggle();")); ?></li>
             </ul>
         <?php endif; ?>
         <?php echo $title; ?>
     </div>
-    <?php if ($tbg_user->canEditMainMenu($target_type) && ((\thebuggenie\core\framework\Context::isProjectContext() && !\thebuggenie\core\framework\Context::getCurrentProject()->isArchived()) || !\thebuggenie\core\framework\Context::isProjectContext())): ?>
+    <?php if ($canEditMenuLinks): ?>
         <div class="rounded_box white shadowed" id="attach_link_<?php echo $target_type; ?>_<?php echo $target_id; ?>" style="position: absolute; width: 300px; z-index: 10001; margin: -1px 0 5px 5px; display: none; top: 0; left: 305px;">
             <div class="header_div" style="margin: 0 0 5px 0;"><?php echo __('Add menu item'); ?></div>
             <form action="<?php echo make_url('attach_link', array('target_type' => $target_type, 'target_id' => $target_id)); ?>" method="post" onsubmit="TBG.Main.Link.add('<?php echo make_url('attach_link', array('target_type' => $target_type, 'target_id' => $target_id)); ?>', '<?php echo $target_type; ?>', '<?php echo $target_id; ?>');return false;" id="attach_link_<?php echo $target_type; ?>_<?php echo $target_id; ?>_form">
