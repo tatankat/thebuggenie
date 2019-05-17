@@ -2199,15 +2199,15 @@
          *
          * @return boolean
          */
-        public function canEditMainMenu($target_type = null)
+        public function canEditMainMenu($target_type = null,$target_context = 0)
         {
             if ($target_type === null || $target_type == 'main_menu')
             {
-                $retval = $this->hasPermission('caneditmainmenu', 0, 'core');
+                $retval = $this->hasPermission('caneditmainmenu', $target_context, 'core');
             }
             else if ($target_type == 'wiki')
             {
-                $retval = $this->hasPermission('editwikimenu', 0, 'publish');
+                $retval = $this->hasPermission('editwikimenu', $target_context, 'publish');
             }
             else
             {

@@ -38,6 +38,7 @@
         const PERMISSION_READ_ARTICLE = 'readarticle';
         const PERMISSION_EDIT_ARTICLE = 'editarticle';
         const PERMISSION_DELETE_ARTICLE = 'deletearticle';
+        const PERMISSION_EDIT_WIKIMENU = 'editwikimenu';
 
         protected $_longname = 'Wiki';
         protected $_description = 'Enables Wiki-functionality';
@@ -59,6 +60,7 @@
             $this->addAvailablePermission(self::PERMISSION_READ_ARTICLE, 'Read all articles');
             $this->addAvailablePermission(self::PERMISSION_EDIT_ARTICLE, 'Edit all articles');
             $this->addAvailablePermission(self::PERMISSION_DELETE_ARTICLE, 'Delete any articles');
+            $this->addAvailablePermission(self::PERMISSION_EDIT_WIKIMENU, 'Edit any wikimenu');
         }
 
         protected function _addListeners()
@@ -341,10 +343,10 @@
         protected function _getPermissionslist()
         {
             $permissions = array();
-            $permissions['editwikimenu'] = array('description' => framework\Context::getI18n()->__('Can edit the wiki lefthand menu'), 'permission' => 'editwikimenu');
-            $permissions['readarticle'] = array('description' => framework\Context::getI18n()->__('Can access the project wiki'), 'permission' => 'readarticle');
-            $permissions['editarticle'] = array('description' => framework\Context::getI18n()->__('Can write articles in project wiki'), 'permission' => 'editarticle');
-            $permissions['deletearticle'] = array('description' => framework\Context::getI18n()->__('Can delete articles from project wiki'), 'permission' => 'deletearticle');
+            $permissions[self::PERMISSION_EDIT_WIKIMENU] = array('description' => framework\Context::getI18n()->__('Can edit the wiki lefthand menu'), 'permission' => self::PERMISSION_EDIT_WIKIMENU);
+            $permissions[self::PERMISSION_READ_ARTICLE] = array('description' => framework\Context::getI18n()->__('Can access the project wiki'), 'permission' => self::PERMISSION_READ_ARTICLE);
+            $permissions[self::PERMISSION_EDIT_ARTICLE] = array('description' => framework\Context::getI18n()->__('Can write articles in project wiki'), 'permission' => self::PERMISSION_EDIT_ARTICLE);
+            $permissions[self::PERMISSION_DELETE_ARTICLE] = array('description' => framework\Context::getI18n()->__('Can delete articles from project wiki'), 'permission' => self::PERMISSION_DELETE_ARTICLE);
             return $permissions;
         }
 
