@@ -124,12 +124,24 @@
 
             if ($request->isDelete())
             {
+            	// Check for scrum permission to modify boards
+            	if (!$this->_checkProjectPageAccess('project_scrum'))
+            	{
+            		throw new \Exception($this->getI18n()->__("You don't have access to modify boards (scrum permission)"));
+            	}
+            	
                 $board_id = $this->board->getID();
                 $this->board->delete();
                 return $this->renderJSON(array('message' => $this->getI18n()->__('The board has been deleted'), 'board_id' => $board_id));
             }
             elseif ($request->isPost())
             {
+            	// Check for scrum permission to modify boards
+            	if (!$this->_checkProjectPageAccess('project_scrum'))
+            	{
+            		throw new \Exception($this->getI18n()->__("You don't have access to modify boards (scrum permission)"));
+            	}
+            	
                 $this->board->setName($request['name']);
                 $this->board->setDescription($request['description']);
                 $this->board->setType($request['type']);
@@ -339,6 +351,12 @@
             {
                 if ($request->isPost())
                 {
+                	// Check for scrum permission to modify boards
+                	if (!$this->_checkProjectPageAccess('project_scrum'))
+                	{
+                		throw new \Exception($this->getI18n()->__("You don't have access to modify boards (scrum permission)"));
+                	}
+                	
                     $columns = $request['columns'];
                     $saved_columns = array();
                     $cc = 1;
@@ -527,6 +545,13 @@
         public function runAddEpic(framework\Request $request)
         {
             $this->forward403unless($this->_checkProjectPageAccess('project_planning'));
+            
+            // Since this creates an issue, user should also have permission to create an issue
+            $this->forward403unless(
+            	framework\Context::getCurrentProject() instanceof \thebuggenie\core\entities\Project && 
+            	framework\Context::getCurrentProject()->hasAccess() && 
+            	$this->getUser()->canReportIssues(framework\Context::getCurrentProject()));
+            
             $board = entities\tables\AgileBoards::getTable()->selectById($request['board_id']);
 
             try
