@@ -3,9 +3,9 @@
         <div class="button button-silver" onclick="$('add_people_to_project_container').toggle();"><?php echo __('Add people'); ?></div>
         <button class="button button-silver dropper"><?php echo __('More actions'); ?></button>
         <ul class="simple_list rounded_box white shadowed rightie popup_box more_actions_dropdown">
-            <li><a href="javascript:void(0);" onclick="$('owned_by_change').up('td').down('label').toggleClassName('button-pressed');$('owned_by_change').toggle();"><?php echo __('Change / set project owner'); ?></a></li>
-            <li><a href="javascript:void(0);" onclick="$('lead_by_change').up('td').down('label').toggleClassName('button-pressed');$('lead_by_change').toggle();"><?php echo __('Change / set project leader'); ?></a></li>
-            <li><a href="javascript:void(0);" onclick="$('qa_by_change').up('td').down('label').toggleClassName('button-pressed');$('qa_by_change').toggle();"><?php echo __('Change / set project qa responsible'); ?></a></li>
+            <li><a href="javascript:void(0);" onclick="$('owned_by_change').up('td').down('label').toggleClassName('button-pressed');$('owned_by_change').toggleClassName('force-active');"><?php echo __('Change / set project owner'); ?></a></li>
+            <li><a href="javascript:void(0);" onclick="$('lead_by_change').up('td').down('label').toggleClassName('button-pressed');$('lead_by_change').toggleClassName('force-active');"><?php echo __('Change / set project leader'); ?></a></li>
+            <li><a href="javascript:void(0);" onclick="$('qa_by_change').up('td').down('label').toggleClassName('button-pressed');$('qa_by_change').toggleClassName('force-active');"><?php echo __('Change / set project qa responsible'); ?></a></li>
         </ul>
     </div>
     <div class="rounded_box lightgrey" style="margin: 0 0 10px 0; width: 765px; padding: 5px 10px 5px 10px; display: none;" id="add_people_to_project_container">
@@ -41,7 +41,6 @@
                                                                         'team_callback'         => "TBG.Project.setUser('" . make_url('configure_project_set_leadby', array('project_id' => $project->getID(), 'field' => 'owned_by', 'identifiable_type' => 'team', 'value' => '%identifiable_value')) . "', 'owned_by');",
                                                                         'base_id'            => 'owned_by',
                                                                         'absolute'            => true,
-                                                                        'hidden'            => false,
                                                                         'classes'            => 'leftie',
                                                                         'include_teams'        => true)); ?>
             <?php endif; ?>
@@ -71,7 +70,6 @@
                                                                         'team_callback'         => "TBG.Project.setUser('" . make_url('configure_project_set_leadby', array('project_id' => $project->getID(), 'field' => 'lead_by', 'identifiable_type' => 'team', 'value' => '%identifiable_value')) . "', 'lead_by');",
                                                                         'base_id'            => 'lead_by',
                                                                         'absolute'            => true,
-                                                                        'hidden'            => false,
                                                                         'classes'            => 'leftie',
                                                                         'include_teams'        => true)); ?>
             <?php endif; ?>
@@ -101,7 +99,6 @@
                                                                         'team_callback'         => "TBG.Project.setUser('" . make_url('configure_project_set_leadby', array('project_id' => $project->getID(), 'field' => 'qa_by', 'identifiable_type' => 'team', 'value' => '%identifiable_value')) . "', 'qa_by');",
                                                                         'base_id'            => 'qa_by',
                                                                         'absolute'            => true,
-                                                                        'hidden'            => false,
                                                                         'classes'            => 'leftie',
                                                                         'include_teams'        => true)); ?>
             <?php endif; ?>

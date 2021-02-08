@@ -23,7 +23,7 @@
                     <td style="<?php if ($component->hasLeader()): ?>display: none; <?php endif; ?>padding: 2px;" class="faded_out" id="no_comp_<?php echo $component->getID(); ?>_auto_assign">
                         <?php echo __('Noone'); ?>
                     </td>
-                    <td style="padding: 2px; width: 100px; font-size: 0.9em; text-align: right;"><a href="javascript:void(0);" onclick="$('comp_<?php echo $component->getID(); ?>_auto_assign_change').toggle('block');" title="<?php echo __('Switch'); ?>"><?php echo __('Change / set'); ?></a></td>
+                    <td style="padding: 2px; width: 100px; font-size: 0.9em; text-align: right;"><a href="javascript:void(0);" onclick="$('comp_<?php echo $component->getID(); ?>_auto_assign_change').toggleClassName('force-active');" title="<?php echo __('Switch'); ?>"><?php echo __('Change / set'); ?></a></td>
                 </tr>
                 <tr><td class="config_explanation" colspan="3"><?php echo __('You can optionally set a user to automatically assign issues filed against this component to. This setting is independant of the save button below.')?></td></tr>
             </table>
