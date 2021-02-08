@@ -2930,6 +2930,8 @@ class Main extends framework\Action
     {
         $this->forward403unless($request->isPost());
         $users = array();
+        $teams = array();
+        $clients = null;
 
         if ($find_identifiable_by = $request['find_identifiable_by'])
         {
